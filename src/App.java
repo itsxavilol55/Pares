@@ -5,6 +5,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 public class App extends JFrame implements ActionListener
 {
     JComboBox Combobox1;
@@ -69,19 +71,35 @@ public class App extends JFrame implements ActionListener
     }
     private void creaPares(int pares, int Altura, int Ancho)
     {
+        ArrayList<Integer> numeros = new ArrayList<Integer>();
+        desordena(numeros, pares);
         setSize(Ancho, Altura);
         setLocationRelativeTo(null);
         if (panel2 != null) remove(panel2); // si al entrar el panel tiene contenido lo elimina para poner una nueva matriz
         panel2 = new JPanel();
         panel2.setLayout(new GridLayout(0, pares == 4 ? pares : pares / 2));
-        for (int i = 0; i < pares * 2; i++)
+        for (int i = 0; i < numeros.size(); i++)
         {
-            ImageIcon imagen = new ImageIcon("lib/Imagenes/" + (int) ((Math.random() * 40) + 1) + ".jpg");
+            ImageIcon imagen = new ImageIcon("lib/Imagenes/" + numeros.get(i) + ".jpg");
             JButton b1 = new JButton(imagen);
             b1.setBorder(null);
             panel2.add(b1);
         }
         add(panel2);
         setVisible(true);
+    }
+    private void desordena(ArrayList<Integer> numeros, int pares)
+    {
+        for (int i = 0; i < pares * 2; i += 2)
+        {
+            int numero = (int) ((Math.random() * 40) + 1);
+            if (numeros.contains(numero))
+            {
+                i -= 2;
+                continue;
+            }
+            numeros.add(numero);
+            numeros.add(numero);
+        }
     }
 }
