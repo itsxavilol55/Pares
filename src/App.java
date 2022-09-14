@@ -101,5 +101,14 @@ public class App extends JFrame implements ActionListener
             numeros.add(numero);
             numeros.add(numero);
         }
+        for (int i = 0; i < numeros.size() * 2; i++)
+        {
+            int num1 = (int) (Math.random() * numeros.size());
+            int num2 = (int) (Math.random() * numeros.size());
+            int aux1 = numeros.get(num1);
+            int aux2 = numeros.get(num2);
+            numeros.set(num1, aux2);
+            numeros.set(num2, aux1);
+        }
     }
 }
