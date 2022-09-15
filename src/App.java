@@ -3,6 +3,7 @@
 // semestre: 5to
 // maestro: Clemente Garcia Gerardo
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -10,8 +11,9 @@ import java.util.Arrays;
 public class App extends JFrame implements ActionListener
 {
     JComboBox Combobox1;
-    JButton Btnjugar;
+    JButton Btnjugar, primerPar;
     JPanel panel2;
+    int cont;
     public static void main(String[] args) throws Exception
     {
         new App();
@@ -46,7 +48,48 @@ public class App extends JFrame implements ActionListener
     {
         Btnjugar.addActionListener(this);
     }
-    @Override public void actionPerformed(ActionEvent e)// en este programa solo se require el evento del boton
+    @Override public void actionPerformed(ActionEvent e)
+    {
+        if (e.getSource() != Btnjugar) actionPares(e);
+        else actionCombo();
+    }
+    private void actionPares(ActionEvent e)
+    {
+        JButton aux = (JButton) e.getSource();
+        aux.setIcon(new ImageIcon("lib/Imagenes/" + aux.getName() + ".jpg"));
+        if (cont == 0)
+        {
+            primerPar = aux;
+            cont = 1;
+            return;
+        }
+        if (!primerPar.getName().equals(aux.getName()))
+        {
+            aux.update(aux.getGraphics());
+            primerPar.setIcon(new ImageIcon("lib/Imagenes/41.jpeg"));
+            aux.setIcon(new ImageIcon("lib/Imagenes/41.jpeg"));
+            try
+            {
+                Thread.sleep(300);
+            }
+            catch (InterruptedException e1)
+            {
+                e1.printStackTrace();
+            }
+        }
+        else if (aux == primerPar)
+        {
+            aux.setIcon(new ImageIcon("lib/Imagenes/41.jpeg"));
+        }
+        else
+        {
+            aux.setEnabled(false);
+            primerPar.setEnabled(false);
+        }
+        repaint();
+        cont = 0;
+    }
+    private void actionCombo()
     {
         if (Combobox1.getSelectedIndex() == 0)
         {
@@ -80,9 +123,11 @@ public class App extends JFrame implements ActionListener
         panel2.setLayout(new GridLayout(0, pares == 4 ? pares : pares / 2));
         for (int i = 0; i < numeros.size(); i++)
         {
-            ImageIcon imagen = new ImageIcon("lib/Imagenes/" + numeros.get(i) + ".jpg");
+            ImageIcon imagen = new ImageIcon("lib/Imagenes/41.jpeg");
             JButton b1 = new JButton(imagen);
-            b1.setBorder(null);
+            b1.setBorder(new MatteBorder(4, 4, 4, 4, Color.white));
+            b1.setName((numeros.get(i)) + "");
+            b1.addActionListener(this);
             panel2.add(b1);
         }
         add(panel2);
